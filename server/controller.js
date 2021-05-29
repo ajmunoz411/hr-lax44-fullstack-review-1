@@ -28,6 +28,13 @@ const controller = {
         err ? res.status(400).send(err) : res.status(200).send(results);
       })
 
+    },
+    deleteName: function (req, res) {
+      var { id } = req.params;
+      var queryStr = `DELETE FROM students WHERE id=${id};`;
+      db.query(queryStr, (err, results) => {
+        err ? res.status(400).send(err) : res.status(200).send(results);
+      })
     }
   },
 
@@ -39,6 +46,14 @@ const controller = {
         err ? res.status(400).send(err) : res.status(200).send('successful post');
       })
 
+    },
+
+    deleteImage: function (req, res) {
+      var { id } = req.params;
+      var queryStr = `DELETE FROM images WHERE id=${id};`;
+      db.query(queryStr, (err, results) => {
+        err ? res.status(400).send(err) : res.status(200).send(results);
+      })
     }
   }
 };

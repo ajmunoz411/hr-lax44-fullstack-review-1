@@ -17,13 +17,18 @@ router
 // route for updating a student's name
 router
   .route('/students/:id')
-    .put(controller.students.updateName);
+    .put(controller.students.updateName)
+    .delete(controller.students.deleteName);
 
 
 // routes for adding a new student image
 router
   .route('/images')
     .post(controller.images.postImg);
+
+router
+  .route('/images/:id')
+    .delete(controller.images.deleteImage);
 
 
 

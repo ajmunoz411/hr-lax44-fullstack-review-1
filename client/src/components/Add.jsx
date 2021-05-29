@@ -14,15 +14,9 @@ export default class Add extends React.Component {
 
   changeHandler(e){
     e.preventDefault();
-    if (e.target.name === 'name') {
-      this.setState({
-        name: e.target.value
-      })
-    } else if (e.target.name === 'imgurl') {
-      this.setState({
-        imgurl: e.target.value
-      })
-    }
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   handleSubmit(e){

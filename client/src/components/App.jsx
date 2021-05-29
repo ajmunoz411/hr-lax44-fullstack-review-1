@@ -16,12 +16,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount(){
-    // used to store all students on our front end when the application runs
     this.getStudents()
   }
 
   getStudents(){
-    // Todo: Add your code here to retrieve all students from the database
     axios.get('/api/students')
     .then(res => {
       this.setState({

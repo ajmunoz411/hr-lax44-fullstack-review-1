@@ -13,18 +13,13 @@ class ListElement extends React.Component {
     this.state = {
       clicked: false,
       newName: '',
-      // student: ''
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.editMode = this.editMode.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
-
-  // componentDidMount() {
-  //   this.setState({
-  //     student: this.props.student
-  //   })
-  // }
 
   handleClick(event) {
     this.setState({
@@ -34,14 +29,12 @@ class ListElement extends React.Component {
 
   handleUpdate(event) {
     event.preventDefault();
-    // console.log('newName', this.state.newName);
-    // console.log('student id', this.state.student.id);
     axios.put(`/api/students/${this.props.student.id}`, {
       name: this.state.newName
     })
-      .then(this.setState({
-        clicked: !this.state.clicked
-      }))
+      .then(() => {
+        this.handleClick();
+      })
       .then(() => {
         this.props.getStudents();
       })
@@ -52,35 +45,53 @@ class ListElement extends React.Component {
 
   handleChange(event) {
     event.preventDefault();
-    // console.log('event target value', event.target.value);
     this.setState({
       newName: event.target.value
     })
   }
 
-  render() {
-    if (this.state.clicked) {
-      return (
-        <span>
-          {/* <div>{this.props.student.name}</div> */}
-          <form onSubmit={this.handleUpdate}>
-            <input type="text" name="name" onChange={this.handleChange}/>
-            <button>Submit</button>
-            <button onClick={this.handleClick}>Cancel</button>
-          </form>
-          <img src={this.props.student.imgurl}></img>
-        </span>
-      )
-    } else {
-      return (
-        <span>
-          <div>{this.props.student.name}</div>
-          <img src={this.props.student.imgurl}></img>
-          <button onClick={this.handleClick}>Change Name</button>
-        </span>
-      )
-    }
+  handleDelete(event) {
+    event.preventDefault();
+    axios.delete(`/api/students/${this.props.student.id}`)
+    .then(() => {
+      axios.delete(`/api/images/${this.props.student.id}`)
+      .then(() => {
+        console.log('successful delete');
+      })
+      .then(() => {
+        this.props.getStudents();
+      })
+      .catch(err => {
+        console.log('error in deleting entry', err);
+      })
+    })
+  }
 
+  editMode() {
+    return (this.state.clicked) ? (
+      <form onSubmit={this.handleUpdate}>
+        <input type="text" name="name" onChange={this.handleChange}/>
+        <button>Submit</button>
+        <button onClick={this.handleClick}>Cancel</button>
+      </form>
+    ) : (
+    <div>
+      <button onClick={this.handleClick}>Change Name</button>
+      <button onClick={this.handleDelete}>Delete Person</button>
+    </div>
+    )
+  }
+
+  render() {
+    return (
+      <span>
+        <img src={this.props.student.imgurl}></img>
+        <div>{this.props.student.name}</div>
+        <div>
+          <div>{this.editMode()}</div>
+        </div>
+      </span>
+    )
   }
 }
 
