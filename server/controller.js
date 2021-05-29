@@ -20,8 +20,10 @@ const controller = {
     },
     updateName: function (req, res) {
       var { name } = req.body;
+      console.log('req body in update name', req.body);
+      console.log('name in update name', name);
       var { id } = req.params;
-      var queryStr = `UPDATE students SET name = ${name} WHERE id=${id};`;
+      var queryStr = `UPDATE students SET name="${name}" WHERE id=${id};`;
       db.query(queryStr, (err, results) => {
         err ? res.status(400).send(err) : res.status(200).send(results);
       })

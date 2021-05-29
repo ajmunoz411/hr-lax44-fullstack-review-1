@@ -31,23 +31,20 @@ export default class Add extends React.Component {
     axios.post('/api/students', {
       name: this.state.name
     })
-      .then(results => {
-        console.log('successful name post', results);
+    .then(results => {
+      console.log('successful name post', results);
+    })
+    .then(() => {
+      axios.post('/api/images', {
+        imgurl: this.state.imgurl
       })
-      .then(() => {
-        axios.post('/api/images', {
-          imgurl: this.state.imgurl
-        })
-          .then(results => {
-            console.log('successful img post', results);
-          })
-          .catch(err => {
-            console.log('error in img post', err);
-          })
-      })
-      .catch(err => {
-        console.log('error in name post', err);
-      });
+    })
+    .then(() => {
+      alert('Student Added to Database');
+    })
+    .catch(err => {
+      console.log('error in name post', err);
+    });
 
 
 
@@ -71,12 +68,12 @@ export default class Add extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <label>Student Name: </label>
           <input type="text" name="name" onChange={this.changeHandler}/>
           <label>Image URL: </label>
           <input type="text" name="imgurl" onChange={this.changeHandler}/>
-          <button type="submit" value="Submit" >Submit</button>
+          <button type="submit" value="Submit" onClick={this.handleSubmit}>Submit</button>
         </form>
         <h1>Preview:</h1>
         <div>{this.showPreview()}</div>

@@ -42,6 +42,9 @@ class ListElement extends React.Component {
       .then(this.setState({
         clicked: !this.state.clicked
       }))
+      .then(() => {
+        this.props.getStudents();
+      })
       .catch(err => {
         console.log('update error', err);
       })
@@ -49,7 +52,7 @@ class ListElement extends React.Component {
 
   handleChange(event) {
     event.preventDefault();
-    console.log('event target value', event.target.value);
+    // console.log('event target value', event.target.value);
     this.setState({
       newName: event.target.value
     })

@@ -4,7 +4,7 @@ import ListElement from './ListElement.jsx';
 const List = (props) =>
   <div>
     {props.students.map(student => (
-      <ListElement student={student} key={student.id}/>
+      <ListElement student={student} key={student.id} getStudents={props.getStudents}/>
     ))}
     {/* <span>
       <div>Josh</div>

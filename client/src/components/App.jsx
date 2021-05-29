@@ -51,7 +51,7 @@ export default class App extends React.Component {
     } else if (this.state.page === 'list'){
       return (
         <div>
-          <List students={this.state.studentlist}/>
+          <List students={this.state.studentlist} getStudents={this.getStudents}/>
           <button value='home' onClick={this.changepage}>Back</button>
         </div>
       )
