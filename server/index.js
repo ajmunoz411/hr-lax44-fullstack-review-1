@@ -11,6 +11,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 server.use(express.static(path.join(__dirname, '../client/dist')));
+server.use('/api', router);
 
 
 server.listen(port, () => console.log(`listening on ${port}`))

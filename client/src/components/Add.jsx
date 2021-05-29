@@ -8,15 +8,48 @@ export default class Add extends React.Component {
       name: '',
       imgurl: ''
     }
+    this.changeHandler = this.changeHandler.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   changeHandler(e){
-    // Todo: Add your code here to handle the data the client inputs
-
+    e.preventDefault();
+    if (e.target.name === 'name') {
+      this.setState({
+        name: e.target.value
+      })
+    } else if (e.target.name === 'imgurl') {
+      this.setState({
+        imgurl: e.target.value
+      })
+    }
   }
 
   handleSubmit(e){
-    // Todo: Add your code here to handle the API requests to add a student and image
+    e.preventDefault();
+
+    axios.post('/api/students', {
+      name: this.state.name
+    })
+      .then(results => {
+        console.log('successful name post', results);
+      })
+      .then(() => {
+        axios.post('/api/images', {
+          imgurl: this.state.imgurl
+        })
+          .then(results => {
+            console.log('successful img post', results);
+          })
+          .catch(err => {
+            console.log('error in img post', err);
+          })
+      })
+      .catch(err => {
+        console.log('error in name post', err);
+      });
+
+
 
   }
 
@@ -38,12 +71,12 @@ export default class Add extends React.Component {
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <label>Student Name: </label>
-          <input type="text" name="name" />
+          <input type="text" name="name" onChange={this.changeHandler}/>
           <label>Image URL: </label>
-          <input type="text" name="imgurl" />
-          <button type="submit" value="Submit">Submit</button>
+          <input type="text" name="imgurl" onChange={this.changeHandler}/>
+          <button type="submit" value="Submit" >Submit</button>
         </form>
         <h1>Preview:</h1>
         <div>{this.showPreview()}</div>
